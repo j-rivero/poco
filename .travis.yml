@@ -48,6 +48,6 @@ matrix:
                                -DENABLE_XML:BOOL=OFF \
                                -DENABLE_ZIP:BOOL=OFF \
                                -DENABLE_TESTS=ON \
-                               .. \
+                               ..
         - make -j2
         - ./travis/runtests.sh
