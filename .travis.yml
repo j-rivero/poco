@@ -3,6 +3,11 @@ language: cpp
 cache:
  - apt
 
+
+addons:
+ apt:
+  packages: lcov
+
 before_install:
   # we need a recent version of CMake
   # linux prereqisite packages
@@ -11,11 +16,6 @@ before_install:
   - if [ "$TRAVIS_OS_NAME" == "linux" ]; then export PATH=$PWD/cmake-3.2.3-Linux-x86_64/bin:$PATH; fi
   - if [ "$TRAVIS_OS_NAME" == "linux" ]; then sudo apt-get update -qq; fi
 
-addons:
-  apt:
-    packages: lcov
-
-  
 env:
   global: TEST_NAME=""
 
@@ -32,7 +32,7 @@ matrix:
         - sudo apt-get install -qq -y g++-4.8
         - export CC="gcc-4.8"
         - export CXX="g++-4.8"
-        - mkdir cmake-build && cd cmake-build
-        - CXXFLAGS="--coverage" cmake -DCMAKE_BUILD_TYPE=Debug -DENABLE_CRYPTO:BOOL=OFF -DENABLE_DATA:BOOL=OFF -DENABLE_JSON:BOOL=OFF -DENABLE_MONGODB:BOOL=OFF -DENABLE_NET:BOOL=OFF -DENABLE_NETSSL:BOOL=OFF -DENABLE_PAGECOMPILER_FILE2PAGE:BOOL=OFF -DENABLE_PAGECOMPILER:BOOL=OFF -DENABLE_REDIS:BOOL=OFF -DENABLE_UTIL:BOOL=OFF -DENABLE_XML:BOOL=OFF -DENABLE_ZIP:BOOL=OFF -DENABLE_TESTS=ON ..
-        - make -j2
-        - ./travis/runtests.sh
+        - mkdir cmake-build && cd cmake-build && cmake -DENABLE_TESTS=ON .. && make -j2 && cd ..
+
+
+          #-        - CXXFLAGS="--coverage" cmake -DCMAKE_BUILD_TYPE=Debug -DENABLE_CRYPTO:BOOL=OFF -DENABLE_DATA:BOOL=OFF -DENABLE_JSON:BOOL=OFF -DENABLE_MONGODB:BOOL=OFF -DENABLE_NET:BOOL=OFF -DENABLE_NETSSL:BOOL=OFF -DENABLE_PAGECOMPILER_FILE2PAGE:BOOL=OFF -DENABLE_PAGECOMPILER:BOOL=OFF -DENABLE_REDIS:BOOL=OFF -DENABLE_UTIL:BOOL=OFF -DENABLE_XML:BOOL=OFF -DENABLE_ZIP:BOOL=OFF -DENABLE_TESTS=ON ..
