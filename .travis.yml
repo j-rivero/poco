@@ -33,16 +33,15 @@ matrix:
         - export CC="gcc-4.8"
         - export CXX="g++-4.8"
         - mkdir cmake-build && cd cmake-build
-          #        - CXXFLAGS="--coverage" cmake -DCMAKE_BUILD_TYPE=Debug -DENABLE_JSON:BOOL=OFF 
-        - CXXFLAGS="--coverage" cmake -DCMAKE_BUILD_TYPE=Debug -DENABLE_CRYPTO:BOOL=OFF -DENABLE_NET:BOOL=OFF -DENABLE_NETSSL:BOOL=OFF -DENABLE_REDIS:BOOL=OFF -DENABLE_TESTS=ON -DENABLE_XML:BOOL=OFF -DENABLE_UTIL:BOOL=OFF -DENABLE_ZIP:BOOL=OFF -DENABLE_MONGODB:BOOL=OFF -DENABLE_ZIP:BOOL=OFF  -DENABLE_DATA:BOOL=OFF  -DENABLE_PAGECOMPILER_FILE2PAGE:BOOL=OFF -DENABLE_PAGECOMPILER:BOOL=OFF  .. && VERBOSE=1 make -j2
+          #        - CXXFLAGS="--coverage" cmake -DCMAKE_BUILD_TYPE=Debug 
+        - CXXFLAGS="--coverage" cmake -DCMAKE_BUILD_TYPE=Debug -DENABLE_CRYPTO:BOOL=OFF -DENABLE_NET:BOOL=OFF -DENABLE_NETSSL:BOOL=OFF -DENABLE_REDIS:BOOL=OFF -DENABLE_TESTS=ON -DENABLE_XML:BOOL=OFF -DENABLE_UTIL:BOOL=OFF -DENABLE_ZIP:BOOL=OFF -DENABLE_MONGODB:BOOL=OFF -DENABLE_ZIP:BOOL=OFF  -DENABLE_DATA:BOOL=OFF  -DENABLE_PAGECOMPILER_FILE2PAGE:BOOL=OFF -DENABLE_PAGECOMPILER:BOOL=OFF  -DENABLE_JSON:BOOL=OFF  .. && VERBOSE=1 make -j2
         - ctest -j2 --output-on-failure || true
 
 after_script:
-  # Create lcov report
-  - lcov --capture --initial --directory .. -o app_base.info
+  # Create lcov report - lcov --capture --initial --directory .. -o app_base.info
   - lcov --capture --directory . --output-file coverage.info
-  - lcov --remove app_base.info */tests/* */testsuite/* --output-file app_base.info
-  - lcov --remove coverage.info */tests/* */testsuite/* --output-file coverage.info
+  - lcov --remove app_base.info '*/tests/* */testsuite* Foundation/testsuite*'  --output-file app_base.info
+  - lcov --remove coverage.info '*/tests/* */testsuite* Foundation/testsuite*' --output-file coverage.info
   - lcov -a app_base.info -a coverage.info -o coverage.info
   - lcov --list coverage.info
   # Uploading report to CodeCov
