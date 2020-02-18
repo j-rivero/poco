@@ -35,6 +35,7 @@ matrix:
         - mkdir cmake-build && cd cmake-build
           #        - CXXFLAGS="--coverage" cmake -DCMAKE_BUILD_TYPE=Debug -DENABLE_CRYPTO:BOOL=OFF -DENABLE_DATA:BOOL=OFF -DENABLE_JSON:BOOL=OFF -DENABLE_MONGODB:BOOL=OFF -DENABLE_NET:BOOL=OFF -DENABLE_NETSSL:BOOL=OFF -DENABLE_PAGECOMPILER_FILE2PAGE:BOOL=OFF -DENABLE_PAGECOMPILER:BOOL=OFF -DENABLE_REDIS:BOOL=OFF -DENABLE_UTIL:BOOL=OFF -DENABLE_XML:BOOL=OFF -DENABLE_ZIP:BOOL=OFF -DENABLE_TESTS=ON .. && make -j2
         - CXXFLAGS="--coverage" cmake -DCMAKE_BUILD_TYPE=Debug -DENABLE_TESTS=ON .. && make -j2
+        - cd .. && ./travis/runtests.sh
 
 after_script:
   # Create lcov report
